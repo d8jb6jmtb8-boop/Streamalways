@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreamAlways</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script
+        src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+        async
+        defer>
+    </script>
+</head>
+
+<body>
+
+<div id="captchaScreen" class="captcha-screen">
+
+    <div class="captcha-card">
+
+        <div class="brand-logo">SA</div>
+
+        <h1>StreamAlways</h1>
+
+        <h2>Vérification de sécurité</h2>
+
+        <p>
+            Confirmez que vous êtes humain
+            pour accéder au site.
+        </p>
+
+        <div
+            class="cf-turnstile"
+            data-sitekey="0x4AAAAAAEOT4EDvACXCyLAp"
+            data-callback="turnstileVerified"
+            data-expired-callback="turnstileExpired"
+            data-error-callback="turnstileError">
+        </div>
+
+        <button
+            id="enterButton"
+            class="primary-btn"
+            disabled>
+            Entrer sur StreamAlways
+        </button>
+
+    </div>
+
+</div>
+
+
+<div id="site" class="hidden">
+
+<header class="header">
+
+    <div class="container header-content">
+
+        <a href="index.html" class="brand">
+
+            <div class="brand-logo">
+                SA
+            </div>
+
+            <span>
+                StreamAlways
+            </span>
+
+        </a>
+
+        <nav>
+            <a href="#home">Accueil</a>
+            <a href="#subscriptions">Abonnements</a>
+        </nav>
+
+        <a
+            href="checkout.html"
+            class="cart-button">
+
+            🛒 Panier
+            <b id="cartCount">0</b>
+
+        </a>
+
+    </div>
+
+</header>
+
+
+<main>
+
+<section id="home" class="hero">
+
+    <div class="container hero-content">
+
+        <div class="hero-text">
+
+            <span class="hero-badge">
+                STREAMALWAYS
+            </span>
+
+            <h1>
+                Tous vos abonnements
+                <span>au même endroit.</span>
+            </h1>
+
+            <p>
+                Musique, streaming, création,
+                IA, réseaux sociaux et bien plus.
+            </p>
+
+            <a
+                href="#subscriptions"
+                class="primary-btn">
+
+                Voir les abonnements
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="search-section">
+
+    <div class="container">
+
+        <input
+            id="searchInput"
+            class="search-input"
+            type="search"
+            placeholder="Rechercher un abonnement...">
+
+    </div>
+
+</section>
+
+
+<section class="categories-section">
+
+    <div class="container categories">
+
+        <button
+            class="category active"
+            data-category="all">
+            Tous
+        </button>
+
+        <button
+            class="category"
+            data-category="music">
+            🎵 Musique
+        </button>
+
+        <button
+            class="category"
+            data-category="video">
+            🎬 Vidéo
+        </button>
+
+        <button
+            class="category"
+            data-category="creative">
+            🎨 Créatif
+        </button>
+
+        <button
+            class="category"
+            data-category="ai">
+            ✦ IA
+        </button>
+
+        <button
+            class="category"
+            data-category="social">
+            💬 Social
+        </button>
+
+        <button
+            class="category"
+            data-category="education">
+            📚 Éducation
+        </button>
+
+        <button
+            class="category"
+            data-category="anime">
+            🍿 Anime
+        </button>
+
+    </div>
+
+</section>
+
+
+<section
+    id="subscriptions"
+    class="products-section">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <span>NOS OFFRES</span>
+
+            <h2>Abonnements</h2>
+
+        </div>
+
+        <div
+            id="products"
+            class="products-grid">
+
+            <div class="loading">
+                Chargement...
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<footer class="footer">
+
+    <div class="container">
+
+        <strong>StreamAlways</strong>
+
+        <p>
+            Vos abonnements numériques.
+        </p>
+
+        <small>
+            © 2026 StreamAlways
+        </small>
+
+    </div>
+
+</footer>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
