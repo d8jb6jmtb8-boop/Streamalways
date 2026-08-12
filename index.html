@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>StreamAlways — Abonnements Premium</title>
+
+    <meta
+        name="description"
+        content="StreamAlways — Tes abonnements premium au même endroit."
+    >
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     ÉCRAN DE VÉRIFICATION
+===================================================== -->
+
+<div
+    id="captchaScreen"
+    class="captcha-screen"
+>
+
+    <div class="captcha-card">
+
+        <div class="brand-mini">
+            Stream<span>Always</span>
+        </div>
+
+
+        <div class="robot-icon">
+            🤖
+        </div>
+
+
+        <h1>
+            Bienvenue sur StreamAlways
+        </h1>
+
+
+        <p>
+            Vérifiez que vous êtes une personne
+            avant d'accéder à notre boutique.
+        </p>
+
+
+        <label class="captcha-box">
+
+            <input
+                type="checkbox"
+                id="robotCheck"
+            >
+
+            <span>
+                Je ne suis pas un robot
+            </span>
+
+            <span class="captcha-check">
+                ✓
+            </span>
+
+        </label>
+
+
+        <button
+            id="enterButton"
+            class="primary-btn"
+            disabled
+        >
+            Continuer
+        </button>
+
+
+        <small>
+            Protection anti-robot
+        </small>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     SITE PRINCIPAL
+===================================================== -->
+
+<div
+    id="site"
+    class="site hidden"
+>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="header">
+
+    <div class="container nav">
+
+
+        <a
+            href="#"
+            class="logo"
+        >
+            Stream<span>Always</span>
+        </a>
+
+
+        <nav>
+
+            <a href="#services">
+                Abonnements
+            </a>
+
+            <a href="#why">
+                Pourquoi nous ?
+            </a>
+
+            <a href="#faq">
+                FAQ
+            </a>
+
+        </nav>
+
+
+        <button
+            id="cartButton"
+            class="cart-button"
+            type="button"
+        >
+
+            🛒
+
+            <span>
+                Panier
+            </span>
+
+            <b id="cartCount">
+                0
+            </b>
+
+        </button>
+
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="hero">
+
+    <div class="container hero-content">
+
+
+        <div class="hero-text">
+
+
+            <div class="badge">
+                ✦ Abonnements premium
+            </div>
+
+
+            <h1>
+
+                Tous tes services
+
+                <span>
+                    premium
+                </span>
+
+                au même endroit.
+
+            </h1>
+
+
+            <p>
+
+                Retrouve tes abonnements préférés
+                sur StreamAlways avec une expérience
+                simple, rapide et sécurisée.
+
+            </p>
+
+
+            <div class="hero-buttons">
+
+
+                <a
+                    href="#services"
+                    class="primary-btn"
+                >
+                    Voir les abonnements
+                </a>
+
+
+                <a
+                    href="#why"
+                    class="secondary-btn"
+                >
+                    En savoir plus
+                </a>
+
+
+            </div>
+
+
+            <div class="trust">
+
+                <span>
+                    ✓ Paiement sécurisé
+                </span>
+
+                <span>
+                    ✓ Assistance
+                </span>
+
+                <span>
+                    ✓ Livraison rapide
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+
+        <div class="hero-card">
+
+
+            <div class="hero-card-top">
+                StreamAlways
+            </div>
+
+
+            <div class="hero-circle">
+                ▶
+            </div>
+
+
+            <h3>
+                Ton divertissement.
+            </h3>
+
+
+            <p>
+                Un seul endroit.
+            </p>
+
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     ABONNEMENTS
+===================================================== -->
+
+<section
+    id="services"
+    class="services"
+>
+
+    <div class="container">
+
+
+        <div class="section-heading">
+
+
+            <div>
+
+                <span class="section-label">
+                    NOS SERVICES
+                </span>
+
+
+                <h2>
+                    Choisis ton abonnement
+                </h2>
+
+            </div>
+
+
+
+            <div class="search">
+
+                <span>
+                    ⌕
+                </span>
+
+
+                <input
+                    id="searchInput"
+                    type="search"
+                    placeholder="Rechercher..."
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- CATÉGORIES -->
+
+        <div class="categories">
+
+
+            <button
+                class="category active"
+                data-category="all"
+                type="button"
+            >
+                Tous
+            </button>
+
+
+            <button
+                class="category"
+                data-category="music"
+                type="button"
+            >
+                🎵 Musique
+            </button>
+
+
+            <button
+                class="category"
+                data-category="video"
+                type="button"
+            >
+                🎬 Vidéo
+            </button>
+
+
+            <button
+                class="category"
+                data-category="creative"
+                type="button"
+            >
+                🎨 Créatif
+            </button>
+
+
+            <button
+                class="category"
+                data-category="ai"
+                type="button"
+            >
+                🤖 IA
+            </button>
+
+
+            <button
+                class="category"
+                data-category="social"
+                type="button"
+            >
+                💬 Social
+            </button>
+
+
+            <button
+                class="category"
+                data-category="education"
+                type="button"
+            >
+                📚 Éducation
+            </button>
+
+
+            <button
+                class="category"
+                data-category="anime"
+                type="button"
+            >
+                🎌 Anime
+            </button>
+
+
+            <button
+                class="category"
+                data-category="other"
+                type="button"
+            >
+                ✦ Autres
+            </button>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             PRODUITS
+             IMPORTANT :
+             Les produits ne sont PLUS écrits ici.
+             Ils seront chargés depuis Supabase.
+        ================================================== -->
+
+        <div
+            id="products"
+            class="products"
+        >
+
+            <div
+                style="
+                    grid-column:1/-1;
+                    text-align:center;
+                    padding:50px;
+                "
+            >
+
+                Chargement des abonnements...
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     POURQUOI STREAMALWAYS
+===================================================== -->
+
+<section
+    id="why"
+    class="why"
+>
+
+    <div class="container">
+
+
+        <span class="section-label">
+            STREAMALWAYS
+        </span>
+
+
+        <h2>
+            Pourquoi choisir StreamAlways ?
+        </h2>
+
+
+        <div class="advantages">
+
+
+            <div>
+
+                <span>
+                    ⚡
+                </span>
+
+
+                <h3>
+                    Rapide
+                </h3>
+
+
+                <p>
+                    Une expérience simple
+                    et rapide pour commander
+                    tes abonnements.
+                </p>
+
+            </div>
+
+
+
+            <div>
+
+                <span>
+                    🔒
+                </span>
+
+
+                <h3>
+                    Sécurisé
+                </h3>
+
+
+                <p>
+                    Tes informations sont
+                    protégées pendant ton
+                    parcours.
+                </p>
+
+            </div>
+
+
+
+            <div>
+
+                <span>
+                    💬
+                </span>
+
+
+                <h3>
+                    Assistance
+                </h3>
+
+
+                <p>
+                    Une assistance disponible
+                    pour répondre à tes questions.
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     FAQ
+===================================================== -->
+
+<section
+    id="faq"
+    class="faq"
+>
+
+    <div class="container">
+
+
+        <span class="section-label">
+            FAQ
+        </span>
+
+
+        <h2>
+            Questions fréquentes
+        </h2>
+
+
+
+        <details>
+
+            <summary>
+                Comment commander ?
+            </summary>
+
+
+            <p>
+
+                Choisis ton abonnement,
+                ajoute-le au panier puis
+                passe à l'étape de paiement.
+
+            </p>
+
+        </details>
+
+
+
+        <details>
+
+            <summary>
+                Quels moyens de paiement seront disponibles ?
+            </summary>
+
+
+            <p>
+
+                Nous allons intégrer les
+                solutions de paiement compatibles
+                avec MTN Mobile Money et Orange Money.
+
+            </p>
+
+        </details>
+
+
+
+        <details>
+
+            <summary>
+                Comment vais-je recevoir mon abonnement ?
+            </summary>
+
+
+            <p>
+
+                Les modalités de livraison
+                dépendront du produit commandé.
+                Les détails seront indiqués
+                lors de la commande.
+
+            </p>
+
+        </details>
+
+
+
+        <details>
+
+            <summary>
+                Les prix sont-ils modifiables ?
+            </summary>
+
+
+            <p>
+
+                Oui. Les produits et leurs prix
+                sont maintenant gérés depuis
+                notre base de données.
+
+            </p>
+
+        </details>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+    <div class="container footer-content">
+
+
+        <div class="logo">
+            Stream<span>Always</span>
+        </div>
+
+
+        <p>
+            © 2026 StreamAlways.
+            Tous droits réservés.
+        </p>
+
+
+    </div>
+
+</footer>
+
+
+
+</div>
+
+
+
+<!-- =====================================================
+     PANIER
+===================================================== -->
+
+<div
+    id="cartOverlay"
+    class="overlay"
+>
+
+
+    <div class="cart">
+
+
+        <button
+            id="closeCart"
+            class="close"
+            type="button"
+            aria-label="Fermer"
+        >
+            ×
+        </button>
+
+
+        <h2>
+            Ton panier
+        </h2>
+
+
+        <div id="cartItems">
+
+            <!-- Produits ajoutés automatiquement -->
+
+        </div>
+
+
+        <div class="cart-total">
+
+            <span>
+                Total
+            </span>
+
+
+            <strong id="cartTotal">
+                0 XAF
+            </strong>
+
+        </div>
+
+
+        <button
+            id="checkoutButton"
+            class="primary-btn full"
+            type="button"
+        >
+            Passer au paiement
+        </button>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     SUPABASE
+===================================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+></script>
+
+
+<!-- =====================================================
+     TON JAVASCRIPT
+===================================================== -->
+
+<script
+    src="script.js"
+></script>
+
+
+</body>
+
+</html>
