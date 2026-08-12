@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Commande — StreamAlways</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<header class="header">
+
+    <div class="container header-content">
+
+        <a href="index.html" class="brand">
+
+            <div class="brand-logo">
+                SA
+            </div>
+
+            <span>
+                StreamAlways
+            </span>
+
+        </a>
+
+    </div>
+
+</header>
+
+
+<main class="confirmation-page">
+
+    <div class="confirmation-card">
+
+        <div class="success-icon">
+            ✓
+        </div>
+
+        <span class="hero-badge">
+            STREAMALWAYS
+        </span>
+
+        <h1>
+            Commande reçue
+        </h1>
+
+        <p>
+            Votre commande a bien été enregistrée.
+        </p>
+
+
+        <div class="order-number-box">
+
+            <span>
+                NUMÉRO DE COMMANDE
+            </span>
+
+            <strong id="orderNumber">
+                Chargement...
+            </strong>
+
+        </div>
+
+
+        <div class="pending-box">
+
+            <strong>
+                ⏳ Paiement en attente
+            </strong>
+
+            <p>
+                Votre paiement et votre preuve de dépôt
+                vont être vérifiés.
+            </p>
+
+        </div>
+
+
+        <a
+            href="index.html"
+            class="primary-btn">
+
+            Retour à l'accueil
+
+        </a>
+
+    </div>
+
+</main>
+
+
+<script>
+
+const orderNumber =
+    localStorage.getItem(
+        "streamalways_last_order"
+    );
+
+document.getElementById(
+    "orderNumber"
+).textContent =
+    orderNumber ||
+    "Commande enregistrée";
+
+</script>
+
+</body>
+</html>
