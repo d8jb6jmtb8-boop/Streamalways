@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Paiement — StreamAlways</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Inter,Arial,sans-serif;
+background:#f7f7f7;
+color:#171717;
+}
+
+.hidden{
+display:none!important;
+}
+
+.container{
+max-width:1150px;
+margin:auto;
+padding-left:18px;
+padding-right:18px;
+}
+
+.header{
+background:#fff;
+border-bottom:1px solid #eee;
+position:sticky;
+top:0;
+z-index:20;
+}
+
+.header-content{
+min-height:70px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:15px;
+}
+
+.brand{
+display:flex;
+align-items:center;
+gap:10px;
+text-decoration:none;
+color:#171717;
+font-weight:900;
+}
+
+.brand-logo{
+width:42px;
+height:42px;
+border-radius:13px;
+background:#171717;
+color:#fff4b8;
+display:grid;
+place-items:center;
+font-weight:900;
+}
+
+.back-link{
+text-decoration:none;
+color:#171717;
+font-weight:700;
+}
+
+.checkout-page{
+padding:45px 0 80px;
+}
+
+.checkout-header{
+text-align:center;
+margin-bottom:30px;
+}
+
+.checkout-header span{
+font-size:12px;
+font-weight:900;
+letter-spacing:2px;
+color:#888;
+}
+
+.checkout-header h1{
+font-size:clamp(30px,5vw,45px);
+margin:8px 0;
+}
+
+.checkout-header p{
+color:#777;
+line-height:1.5;
+}
+
+.checkout-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+align-items:start;
+}
+
+.checkout-card{
+background:#fff;
+border:1px solid #e5e5e5;
+border-radius:22px;
+padding:24px;
+box-shadow:0 8px 25px rgba(0,0,0,.05);
+}
+
+.checkout-card h2{
+font-size:21px;
+margin-bottom:18px;
+}
+
+.checkout-total{
+border-top:1px solid #eee;
+margin-top:15px;
+padding-top:16px;
+display:flex;
+justify-content:space-between;
+font-size:20px;
+font-weight:900;
+}
+
+label{
+display:block;
+font-weight:750;
+margin-top:16px;
+}
+
+input{
+display:block;
+width:100%;
+margin-top:7px;
+padding:14px;
+border:1px solid #ddd;
+border-radius:12px;
+outline:none;
+font:inherit;
+background:#fff;
+}
+
+input:focus{
+border-color:#171717;
+}
+
+.payment-title{
+margin-top:28px!important;
+}
+
+.payment-methods{
+display:grid;
+gap:10px;
+}
+
+.payment-method{
+margin:0;
+border:1px solid #ddd;
+border-radius:14px;
+padding:14px;
+display:flex;
+align-items:center;
+gap:12px;
+cursor:pointer;
+transition:.2s;
+}
+
+.payment-method:hover{
+border-color:#171717;
+}
+
+.payment-method input{
+width:auto;
+margin:0;
+}
+
+.payment-method.selected{
+border-color:#171717;
+background:#fafafa;
+}
+
+.payment-number-small{
+color:#777;
+font-size:13px;
+}
+
+.payment-instructions{
+margin-top:14px;
+padding:18px;
+background:#fff8cc;
+border:1px solid #f0df76;
+border-radius:15px;
+line-height:1.6;
+}
+
+.payment-number{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+margin:12px 0;
+padding:14px;
+background:#171717;
+color:white;
+border-radius:12px;
+font-size:22px;
+font-weight:900;
+letter-spacing:1px;
+}
+
+.copy-button{
+border:0;
+background:#fff4b8;
+color:#171717;
+padding:9px 12px;
+border-radius:9px;
+font-weight:900;
+cursor:pointer;
+}
+
+.file-preview{
+margin-top:12px;
+}
+
+.file-preview img{
+max-width:100%;
+max-height:280px;
+border-radius:14px;
+border:1px solid #eee;
+display:block;
+}
+
+.primary-btn{
+border:0;
+background:#171717;
+color:white;
+padding:15px 18px;
+border-radius:12px;
+font-weight:900;
+cursor:pointer;
+}
+
+.primary-btn.full{
+width:100%;
+margin-top:22px;
+}
+
+.primary-btn:disabled{
+opacity:.6;
+cursor:not-allowed;
+}
+
+.checkout-message{
+margin-top:15px;
+padding:13px;
+border-radius:11px;
+display:none;
+line-height:1.5;
+}
+
+.checkout-message.show{
+display:block;
+}
+
+.checkout-message.error{
+background:#ffe2e2;
+color:#8d0000;
+}
+
+.checkout-message.success{
+background:#def6e5;
+color:#126329;
+}
+
+.empty{
+padding:25px 0;
+color:#777;
+}
+
+.item{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:15px;
+padding:14px 0;
+border-bottom:1px solid #eee;
+}
+
+.item:last-child{
+border-bottom:0;
+}
+
+.item-left{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.item-logo{
+width:48px;
+height:48px;
+border-radius:12px;
+object-fit:contain;
+background:#f4f4f4;
+}
+
+.item-name{
+font-weight:850;
+}
+
+.item-price{
+font-weight:800;
+white-space:nowrap;
+}
+
+@media(max-width:750px){
+
+.checkout-grid{
+grid-template-columns:1fr;
+}
+
+.checkout-page{
+padding-top:25px;
+}
+
+.checkout-card{
+padding:18px;
+}
+
+.payment-number{
+font-size:18px;
+}
+
+}
+
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+</head>
+
+<body>
+
+<header class="header">
+
+<div class="container header-content">
+
+<a href="index.html" class="brand">
+
+<div class="brand-logo">
+SA
+</div>
+
+<span>
+StreamAlways
+</span>
+
+</a>
+
+<a href="index.html" class="back-link">
+← Retour
+</a>
+
+</div>
+
+</header>
+
+
+<main class="checkout-page">
+
+<div class="container">
+
+<div class="checkout-header">
+
+<span>STREAMALWAYS</span>
+
+<h1>
+Finaliser votre commande
+</h1>
+
+<p>
+Effectuez votre paiement puis envoyez votre référence
+et la preuve de dépôt.
+</p>
+
+</div>
+
+
+<div class="checkout-grid">
+
+
+<section class="checkout-card">
+
+<h2>
+Votre commande
+</h2>
+
+<div id="checkoutItems">
+Chargement...
+</div>
+
+<div class="checkout-total">
+
+<span>
+Total
+</span>
+
+<strong id="checkoutTotal">
+0 XAF
+</strong>
+
+</div>
+
+</section>
+
+
+<section class="checkout-card">
+
+<h2>
+Vos informations
+</h2>
+
+
+<label>
+
+Nom
+
+<input
+id="customerName"
+type="text"
+placeholder="Votre nom"
+autocomplete="name">
+
+</label>
+
+
+<label>
+
+Numéro de téléphone
+
+<input
+id="customerPhone"
+type="tel"
+placeholder="6XXXXXXXX"
+autocomplete="tel">
+
+</label>
+
+
+<h2 class="payment-title">
+Moyen de paiement
+</h2>
+
+
+<div id="paymentMethods">
+Chargement...
+</div>
+
+
+<div
+id="paymentInstructions">
+</div>
+
+
+<label>
+
+Référence de transaction
+
+<input
+id="transactionReference"
+type="text"
+placeholder="Référence du dépôt">
+
+</label>
+
+
+<label>
+
+Capture du reçu
+
+<input
+id="proofFile"
+type="file"
+accept="image/*">
+
+</label>
+
+
+<div id="filePreview">
+</div>
+
+
+<button
+id="submitOrder"
+class="primary-btn full">
+
+Envoyer ma commande
+
+</button>
+
+
+<div id="checkoutMessage">
+</div>
+
+</section>
+
+</div>
+
+</div>
+
+</main>
+
+
+<script>
+
+/* =====================================================
+   SUPABASE
+===================================================== */
+
+const SUPABASE_URL =
+"https://effatbwukrldzghvakut.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_v2XtiLdrdsKVRAGhgWoZ_A_MBhVjval";
+
+const supabaseClient =
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+
+/* =====================================================
+   CONFIGURATION
+===================================================== */
+
+const ORANGE_MONEY_NUMBER =
+"640567293";
+
+
+/*
+   Si payment_settings contient Orange Money,
+   celui-ci sera utilisé.
+   Sinon le numéro ci-dessus sera utilisé.
+*/
+
+let paymentMethods = [];
+
+let cart =
+JSON.parse(
+localStorage.getItem(
+"streamalways_cart"
+)
+) || [];
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const itemsBox =
+document.getElementById(
+"checkoutItems"
+);
+
+const totalBox =
+document.getElementById(
+"checkoutTotal"
+);
+
+const methodsBox =
+document.getElementById(
+"paymentMethods"
+);
+
+const instructionsBox =
+document.getElementById(
+"paymentInstructions"
+);
+
+const messageBox =
+document.getElementById(
+"checkoutMessage"
+);
+
+const submitButton =
+document.getElementById(
+"submitOrder"
+);
+
+
+/* =====================================================
+   INIT
+===================================================== */
+
+document.addEventListener(
+"DOMContentLoaded",
+async function(){
+
+renderCart();
+
+await loadPaymentMethods();
+
+setupFilePreview();
+
+}
+);
+
+
+/* =====================================================
+   PANIER
+===================================================== */
+
+function renderCart(){
+
+if(!cart.length){
+
+itemsBox.innerHTML = `
+<div class="empty">
+
+Votre panier est vide.
+
+<br><br>
+
+<a href="index.html">
+Retourner aux abonnements
+</a>
+
+</div>
+`;
+
+totalBox.textContent =
+"0 XAF";
+
+submitButton.disabled =
+true;
+
+return;
+
+}
+
+let total = 0;
+
+itemsBox.innerHTML = "";
+
+cart.forEach(
+function(product){
+
+const price =
+Number(product.price || 0);
+
+total += price;
+
+const item =
+document.createElement("div");
+
+item.className =
+"item";
+
+const logo =
+product.logo_url || "";
+
+item.innerHTML = `
+
+<div class="item-left">
+
+${
+logo
+?
+`
+<img
+class="item-logo"
+src="${escapeHTML(logo)}"
+alt="">
+`
+:
+`
+<div class="item-logo"></div>
+`
+}
+
+<div>
+
+<div class="item-name">
+${escapeHTML(product.name)}
+</div>
+
+<div class="item-price">
+${formatPrice(
+price,
+product.currency
+)}
+</div>
+
+</div>
+
+</div>
+
+<div class="item-price">
+${formatPrice(
+price,
+product.currency
+)}
+</div>
+
+`;
+
+itemsBox.appendChild(item);
+
+}
+);
+
+totalBox.textContent =
+formatPrice(
+total,
+cart[0].currency || "XAF"
+);
+
+}
+
+
+/* =====================================================
+   PAIEMENTS
+===================================================== */
+
+async function loadPaymentMethods(){
+
+try{
+
+const {
+data,
+error
+} =
+await supabaseClient
+.from("payment_settings")
+.select("*")
+.eq("active",true);
+
+if(error){
+
+throw error;
+
+}
+
+paymentMethods =
+data || [];
+
+
+/*
+   Si aucune configuration n'existe,
+   on crée quand même Orange Money
+   côté interface.
+*/
+
+if(!paymentMethods.length){
+
+paymentMethods = [
+
+{
+id:"orange-money-local",
+provider:"Orange Money",
+phone_number:
+ORANGE_MONEY_NUMBER
+}
+
+];
+
+}
+
+/*
+   Si Orange Money existe mais que son numéro
+   n'est pas correct, on utilise le numéro demandé.
+*/
+
+paymentMethods =
+paymentMethods.map(
+function(method){
+
+if(
+String(method.provider || "")
+.toLowerCase()
+.includes("orange")
+){
+
+return {
+...method,
+phone_number:
+ORANGE_MONEY_NUMBER
+};
+
+}
+
+return method;
+
+}
+);
+
+renderPaymentMethods();
+
+}
+catch(error){
+
+console.error(error);
+
+paymentMethods = [
+
+{
+id:"orange-money-local",
+provider:"Orange Money",
+phone_number:
+ORANGE_MONEY_NUMBER
+}
+
+];
+
+renderPaymentMethods();
+
+}
+
+}
+
+
+/* =====================================================
+   AFFICHER PAIEMENTS
+===================================================== */
+
+function renderPaymentMethods(){
+
+methodsBox.innerHTML = "";
+
+paymentMethods.forEach(
+function(method,index){
+
+const label =
+document.createElement("label");
+
+label.className =
+"payment-method";
+
+label.innerHTML = `
+
+<input
+type="radio"
+name="paymentProvider"
+value="${escapeHTML(
+String(method.id)
+)}"
+${index === 0 ? "checked" : ""}>
+
+<span>
+
+<strong>
+${escapeHTML(
+method.provider
+)}
+</strong>
+
+<br>
+
+<span class="payment-number-small">
+${escapeHTML(
+method.phone_number || ""
+)}
+</span>
+
+</span>
+
+`;
+
+const input =
+label.querySelector("input");
+
+input.addEventListener(
+"change",
+function(){
+
+document
+.querySelectorAll(".payment-method")
+.forEach(
+el =>
+el.classList.remove("selected")
+);
+
+label.classList.add("selected");
+
+updatePaymentInstructions();
+
+}
+);
+
+methodsBox.appendChild(label);
+
+if(index === 0){
+
+label.classList.add("selected");
+
+}
+
+}
+);
+
+updatePaymentInstructions();
+
+}
+
+
+/* =====================================================
+   INSTRUCTIONS
+===================================================== */
+
+function updatePaymentInstructions(){
+
+const selected =
+document.querySelector(
+'input[name="paymentProvider"]:checked'
+);
+
+if(!selected){
+
+instructionsBox.innerHTML = "";
+
+return;
+
+}
+
+const method =
+paymentMethods.find(
+function(item){
+
+return String(item.id) ===
+String(selected.value);
+
+}
+);
+
+if(!method){
+
+return;
+
+}
+
+const number =
+method.phone_number ||
+"";
+
+
+instructionsBox.innerHTML = `
+
+<strong>
+${escapeHTML(method.provider)}
+</strong>
+
+<p>
+Envoyez exactement le montant affiché
+ci-dessus au numéro suivant :
+</p>
+
+<div class="payment-number">
+
+<span>
+${escapeHTML(number)}
+</span>
+
+<button
+type="button"
+class="copy-button"
+id="copyPaymentNumber">
+
+Copier
+
+</button>
+
+</div>
+
+<p>
+Après le dépôt, indiquez la référence
+de transaction et ajoutez la capture
+du reçu avant d'envoyer la commande.
+</p>
+
+`;
+
+document
+.getElementById("copyPaymentNumber")
+.addEventListener(
+"click",
+async function(){
+
+try{
+
+await navigator.clipboard.writeText(
+number
+);
+
+this.textContent =
+"Copié ✓";
+
+setTimeout(
+()=>{
+this.textContent =
+"Copier";
+},
+1800
+);
+
+}
+catch{
+
+alert(
+"Numéro de paiement : " +
+number
+);
+
+}
+
+}
+);
+
+}
+
+
+/* =====================================================
+   PREUVE
+===================================================== */
+
+function setupFilePreview(){
+
+const fileInput =
+document.getElementById(
+"proofFile"
+);
+
+fileInput.addEventListener(
+"change",
+function(){
+
+const file =
+this.files[0];
+
+const preview =
+document.getElementById(
+"filePreview"
+);
+
+preview.innerHTML = "";
+
+if(!file){
+
+return;
+
+}
+
+if(!file.type.startsWith("image/")){
+
+showMessage(
+"Veuillez sélectionner une image.",
+"error"
+);
+
+this.value = "";
+
+return;
+
+}
+
+if(file.size > 5 * 1024 * 1024){
+
+showMessage(
+"La capture doit faire moins de 5 Mo.",
+"error"
+);
+
+this.value = "";
+
+return;
+
+}
+
+const reader =
+new FileReader();
+
+reader.onload =
+function(event){
+
+preview.innerHTML = `
+
+<img
+src="${event.target.result}"
+alt="Aperçu du reçu">
+
+`;
+
+};
+
+reader.readAsDataURL(file);
+
+}
+);
+
+}
+
+
+/* =====================================================
+   ENVOI
+===================================================== */
+
+submitButton.addEventListener(
+"click",
+submitOrder
+);
+
+
+async function submitOrder(){
+
+clearMessage();
+
+const name =
+document.getElementById(
+"customerName"
+).value.trim();
+
+const phone =
+document.getElementById(
+"customerPhone"
+).value.trim();
+
+const reference =
+document.getElementById(
+"transactionReference"
+).value.trim();
+
+const file =
+document.getElementById(
+"proofFile"
+).files[0];
+
+const selected =
+document.querySelector(
+'input[name="paymentProvider"]:checked'
+);
+
+
+if(
+!name ||
+!phone ||
+!reference ||
+!file ||
+!selected ||
+!cart.length
+){
+
+showMessage(
+"Veuillez remplir tous les champs et ajouter la capture du paiement.",
+"error"
+);
+
+return;
+
+}
+
+
+if(
+!file.type.startsWith("image/")
+){
+
+showMessage(
+"Le reçu doit être une image.",
+"error"
+);
+
+return;
+
+}
+
+
+if(
+file.size > 5 * 1024 * 1024
+){
+
+showMessage(
+"La capture doit faire moins de 5 Mo.",
+"error"
+);
+
+return;
+
+}
+
+
+const method =
+paymentMethods.find(
+function(item){
+
+return String(item.id) ===
+String(selected.value);
+
+}
+);
+
+
+if(!method){
+
+showMessage(
+"Veuillez sélectionner un moyen de paiement.",
+"error"
+);
+
+return;
+
+}
+
+
+submitButton.disabled =
+true;
+
+submitButton.textContent =
+"Enregistrement...";
+
+
+try{
+
+/* ==========================
+   CLIENT
+========================== */
+
+const {
+data:customer,
+error:customerError
+} =
+await supabaseClient
+.from("customers")
+.insert({
+
+name:name,
+
+phone:phone
+
+})
+.select()
+.single();
+
+
+if(customerError){
+
+throw customerError;
+
+}
+
+
+/* ==========================
+   TOTAL
+========================== */
+
+const total =
+cart.reduce(
+function(sum,product){
+
+return sum +
+Number(product.price || 0);
+
+},
+0
+);
+
+const currency =
+cart[0].currency ||
+"XAF";
+
+
+/* ==========================
+   COMMANDE
+========================== */
+
+const {
+data:order,
+error:orderError
+} =
+await supabaseClient
+.from("orders")
+.insert({
+
+customer_id:
+customer.id,
+
+total:
+total,
+
+currency:
+currency,
+
+status:
+"pending"
+
+})
+.select()
+.single();
+
+
+if(orderError){
+
+throw orderError;
+
+}
+
+
+/* ==========================
+   ARTICLES
+========================== */
+
+const items =
+cart.map(
+function(product){
+
+return {
+
+order_id:
+order.id,
+
+product_id:
+product.id,
+
+product_name:
+product.name,
+
+price:
+Number(product.price || 0),
+
+quantity:
+1
+
+};
+
+}
+);
+
+
+const {
+error:itemsError
+} =
+await supabaseClient
+.from("order_items")
+.insert(items);
+
+
+if(itemsError){
+
+throw itemsError;
+
+}
+
+
+/* ==========================
+   UPLOAD PREUVE
+========================== */
+
+const extension =
+file.name
+.split(".")
+.pop()
+.toLowerCase();
+
+const filePath =
+`${order.id}/${crypto.randomUUID()}.${extension}`;
+
+
+const {
+error:uploadError
+} =
+await supabaseClient
+.storage
+.from("payment-proofs")
+.upload(
+filePath,
+file,
+{
+contentType:file.type,
+upsert:false
+}
+);
+
+
+if(uploadError){
+
+throw uploadError;
+
+}
+
+
+/* ==========================
+   PAIEMENT
+========================== */
+
+const {
+error:paymentError
+} =
+await supabaseClient
+.from("payments")
+.insert({
+
+order_id:
+order.id,
+
+provider:
+method.provider,
+
+transaction_id:
+reference,
+
+amount:
+total,
+
+currency:
+currency,
+
+proof_url:
+filePath,
+
+status:
+"pending"
+
+});
+
+
+if(paymentError){
+
+throw paymentError;
+
+}
+
+
+/* ==========================
+   NETTOYAGE
+========================== */
+
+localStorage.setItem(
+"streamalways_last_order",
+order.order_number ||
+order.id
+);
+
+localStorage.removeItem(
+"streamalways_cart"
+);
+
+
+/* ==========================
+   REDIRECTION
+========================== */
+
+window.location.href =
+"confirmation.html";
+
+}
+catch(error){
+
+console.error(
+"Erreur commande :",
+error
+);
+
+showMessage(
+"Impossible d'envoyer la commande : " +
+(error.message || "erreur inconnue"),
+"error"
+);
+
+submitButton.disabled =
+false;
+
+submitButton.textContent =
+"Envoyer ma commande";
+
+}
+
+}
+
+
+/* =====================================================
+   HELPERS
+===================================================== */
+
+function formatPrice(
+price,
+currency
+){
+
+return Number(price || 0)
+.toLocaleString("fr-FR")
++
+" " +
+(currency || "XAF");
+
+}
+
+
+function escapeHTML(value){
+
+return String(value ?? "")
+.replace(
+/[&<>"']/g,
+function(char){
+
+return {
+
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#039;"
+
+}[char];
+
+}
+);
+
+}
+
+
+function showMessage(
+text,
+type
+){
+
+messageBox.textContent =
+text;
+
+messageBox.className =
+"checkout-message show " +
+(type || "error");
+
+}
+
+
+function clearMessage(){
+
+messageBox.textContent =
+"";
+
+messageBox.className =
+"checkout-message";
+
+}
+
+</script>
+
+</body>
+</html>
