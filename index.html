@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>StreamAlways — Admin</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+font-family:Inter,Arial,sans-serif;
+background:#f4f5f7;
+color:#151515
+}
+
+button,input{
+font:inherit
+}
+
+button{cursor:pointer}
+
+header{
+background:#111;
+color:white;
+padding:16px 20px
+}
+
+.nav{
+max-width:1150px;
+margin:auto;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:15px
+}
+
+.brand{
+display:flex;
+align-items:center;
+gap:10px;
+font-weight:900
+}
+
+.brand-icon{
+width:42px;
+height:42px;
+border-radius:12px;
+display:grid;
+place-items:center;
+background:#ffe94a;
+color:#111
+}
+
+.logout{
+border:1px solid #555;
+background:#222;
+color:white;
+padding:9px 13px;
+border-radius:9px
+}
+
+.container{
+max-width:1150px;
+margin:auto;
+padding:25px 18px 70px
+}
+
+.login{
+max-width:450px;
+margin:60px auto
+}
+
+.card{
+background:white;
+border:1px solid #e6e6e6;
+border-radius:20px;
+padding:23px;
+box-shadow:0 8px 25px rgba(0,0,0,.04)
+}
+
+h1,h2{margin-bottom:8px}
+
+.muted{
+color:#777;
+line-height:1.5
+}
+
+.form-group{
+margin-top:16px
+}
+
+label{
+display:block;
+font-weight:750;
+margin-bottom:7px
+}
+
+input{
+width:100%;
+padding:14px;
+border:1px solid #ddd;
+border-radius:11px;
+outline:0
+}
+
+.primary{
+margin-top:18px;
+width:100%;
+border:0;
+background:#111;
+color:white;
+padding:14px;
+border-radius:11px;
+font-weight:800
+}
+
+.hidden{display:none!important}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:13px;
+margin:20px 0
+}
+
+.stat{
+background:white;
+border:1px solid #e6e6e6;
+border-radius:16px;
+padding:18px
+}
+
+.stat-number{
+font-size:29px;
+font-weight:900;
+margin-top:5px
+}
+
+.toolbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+margin-bottom:16px;
+flex-wrap:wrap
+}
+
+select{
+padding:11px;
+border:1px solid #ddd;
+border-radius:10px;
+background:white
+}
+
+.refresh{
+border:0;
+background:#111;
+color:white;
+padding:11px 15px;
+border-radius:10px;
+font-weight:800
+}
+
+.orders{
+display:grid;
+gap:14px
+}
+
+.order{
+background:white;
+border:1px solid #e5e5e5;
+border-radius:18px;
+padding:20px;
+box-shadow:0 6px 20px rgba(0,0,0,.035)
+}
+
+.order-top{
+display:flex;
+justify-content:space-between;
+gap:15px;
+align-items:flex-start
+}
+
+.order-number{
+font-size:20px;
+font-weight:900
+}
+
+.badge{
+display:inline-block;
+padding:7px 10px;
+border-radius:100px;
+font-size:12px;
+font-weight:800
+}
+
+.pending{
+background:#fff0a5
+}
+
+.processing{
+background:#e2eaff
+}
+
+.completed{
+background:#dff5e5
+}
+
+.cancelled{
+background:#ffe0e0
+}
+
+.details{
+display:grid;
+gap:7px;
+margin-top:17px;
+color:#555
+}
+
+.items{
+border-top:1px solid #eee;
+margin-top:16px;
+padding-top:13px
+}
+
+.item{
+display:flex;
+justify-content:space-between;
+padding:7px 0
+}
+
+.total{
+border-top:1px solid #eee;
+margin-top:8px;
+padding-top:12px;
+display:flex;
+justify-content:space-between;
+font-size:18px;
+font-weight:900
+}
+
+.actions{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+margin-top:17px
+}
+
+.action{
+border:0;
+padding:10px 13px;
+border-radius:9px;
+font-weight:750
+}
+
+.take{
+background:#e2eaff
+}
+
+.done{
+background:#dff5e5
+}
+
+.cancel{
+background:#ffe0e0
+}
+
+.message{
+margin-top:13px;
+padding:12px;
+border-radius:10px;
+background:#ffe0e0;
+color:#8b0000
+}
+
+@media(max-width:700px){
+.stats{
+grid-template-columns:1fr 1fr
+}
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="nav">
+
+<div class="brand">
+<div class="brand-icon">SA</div>
+<span>StreamAlways Admin</span>
+</div>
+
+<button
+id="logoutButton"
+class="logout hidden">
+Déconnexion
+</button>
+
+</div>
+
+</header>
+
+
+<!-- LOGIN -->
+
+<section
+id="loginSection"
+class="container">
+
+<div class="card login">
+
+<h1>
+Connexion
+</h1>
+
+<p class="muted">
+Espace réservé à l'administration.
+</p>
+
+<div class="form-group">
+
+<label>E-mail</label>
+
+<input
+id="email"
+type="email"
+placeholder="Votre e-mail">
+
+</div>
+
+<div class="form-group">
+
+<label>Mot de passe</label>
+
+<input
+id="password"
+type="password"
+placeholder="Votre mot de passe">
+
+</div>
+
+<button
+id="loginButton"
+class="primary">
+
+Se connecter
+
+</button>
+
+<div
+id="loginMessage"
+class="message hidden">
+</div>
+
+</div>
+
+</section>
+
+
+<!-- DASHBOARD -->
+
+<section
+id="dashboard"
+class="container hidden">
+
+<div>
+
+<h1>
+Tableau de bord
+</h1>
+
+<p class="muted">
+Gère ici les commandes reçues.
+</p>
+
+</div>
+
+
+<div class="stats">
+
+<div class="stat">
+<div class="muted">En attente</div>
+<div id="pendingCount" class="stat-number">0</div>
+</div>
+
+<div class="stat">
+<div class="muted">En traitement</div>
+<div id="processingCount" class="stat-number">0</div>
+</div>
+
+<div class="stat">
+<div class="muted">Terminées</div>
+<div id="completedCount" class="stat-number">0</div>
+</div>
+
+<div class="stat">
+<div class="muted">Total</div>
+<div id="totalCount" class="stat-number">0</div>
+</div>
+
+</div>
+
+
+<div class="toolbar">
+
+<select id="filter">
+
+<option value="all">Toutes les commandes</option>
+<option value="pending">En attente</option>
+<option value="processing">En traitement</option>
+<option value="completed">Terminées</option>
+<option value="cancelled">Annulées</option>
+
+</select>
+
+<button
+id="refresh"
+class="refresh">
+↻ Actualiser
+</button>
+
+</div>
+
+
+<div
+id="orders"
+class="orders">
+</div>
+
+</section>
+
+
+<script>
+
+/* ==========================================
+   SUPABASE
+========================================== */
+
+const SUPABASE_URL =
+"https://effatbwukrldzghvakut.supabase.co";
+
+const SUPABASE_ANON_KEY =
+"sb_publishable_v2XtiLdrdsKVRAGhgWoZ_A_MBhVjval";
+
+const supabaseClient =
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_ANON_KEY
+);
+
+
+/* ==========================================
+   ELEMENTS
+========================================== */
+
+const loginSection =
+document.getElementById("loginSection");
+
+const dashboard =
+document.getElementById("dashboard");
+
+const loginButton =
+document.getElementById("loginButton");
+
+const logoutButton =
+document.getElementById("logoutButton");
+
+const ordersBox =
+document.getElementById("orders");
+
+const filter =
+document.getElementById("filter");
+
+
+/* ==========================================
+   LOGIN
+========================================== */
+
+loginButton.onclick=async()=>{
+
+const email =
+document.getElementById("email")
+.value.trim();
+
+const password =
+document.getElementById("password")
+.value;
+
+
+if(!email || !password){
+
+showMessage(
+"Entre ton e-mail et ton mot de passe."
+);
+
+return;
+
+}
+
+
+loginButton.disabled=true;
+loginButton.textContent="Connexion...";
+
+
+const {error} =
+await supabaseClient.auth.signInWithPassword({
+email,
+password
+});
+
+
+loginButton.disabled=false;
+loginButton.textContent="Se connecter";
+
+
+if(error){
+
+showMessage(error.message);
+
+return;
+
+}
+
+
+await openDashboard();
+
+};
+
+
+/* ==========================================
+   DASHBOARD
+========================================== */
+
+async function openDashboard(){
+
+const {
+data:{user}
+} =
+await supabaseClient.auth.getUser();
+
+
+if(!user){
+
+return;
+
+}
+
+
+loginSection.classList.add("hidden");
+dashboard.classList.remove("hidden");
+logoutButton.classList.remove("hidden");
+
+
+await loadOrders();
+
+}
+
+
+/* ==========================================
+   LOAD ORDERS
+========================================== */
+
+async function loadOrders(){
+
+ordersBox.innerHTML=`
+<div class="card">
+Chargement...
+</div>`;
+
+
+const {data,error} =
+await supabaseClient
+.from("orders")
+.select("*")
+.order(
+"created_at",
+{ascending:false}
+);
+
+
+if(error){
+
+ordersBox.innerHTML=`
+<div class="card">
+<strong>Erreur</strong>
+<p class="muted">
+${escapeHTML(error.message)}
+</p>
+</div>`;
+
+return;
+
+}
+
+
+updateStats(data);
+
+renderOrders(data);
+
+}
+
+
+/* ==========================================
+   STATS
+========================================== */
+
+function updateStats(orders){
+
+document.getElementById("pendingCount")
+.textContent=
+orders.filter(
+o=>o.status==="pending"
+).length;
+
+document.getElementById("processingCount")
+.textContent=
+orders.filter(
+o=>o.status==="processing"
+).length;
+
+document.getElementById("completedCount")
+.textContent=
+orders.filter(
+o=>o.status==="completed"
+).length;
+
+document.getElementById("totalCount")
+.textContent=
+orders.length;
+
+}
+
+
+/* ==========================================
+   RENDER
+========================================== */
+
+function renderOrders(orders){
+
+const selected =
+filter.value;
+
+if(selected!=="all"){
+
+orders=
+orders.filter(
+o=>o.status===selected
+);
+
+}
+
+
+if(!orders.length){
+
+ordersBox.innerHTML=`
+<div class="card">
+<p class="muted">
+Aucune commande dans cette catégorie.
+</p>
+</div>`;
+
+return;
+
+}
+
+
+ordersBox.innerHTML="";
+
+
+orders.forEach(order=>{
+
+const div =
+document.createElement("div");
+
+div.className="order";
+
+
+const items =
+Array.isArray(order.items)
+?order.items
+:[];
+
+
+div.innerHTML=`
+
+<div class="order-top">
+
+<div>
+
+<div class="order-number">
+${escapeHTML(order.order_number)}
+</div>
+
+<div class="muted">
+${formatDate(order.created_at)}
+</div>
+
+</div>
+
+<span class="badge ${order.status}">
+${statusText(order.status)}
+</span>
+
+</div>
+
+
+<div class="details">
+
+<div>
+<strong>Client :</strong>
+${escapeHTML(order.customer_name)}
+</div>
+
+<div>
+<strong>E-mail :</strong>
+${escapeHTML(order.customer_email)}
+</div>
+
+<div>
+<strong>Téléphone :</strong>
+${escapeHTML(order.customer_phone)}
+</div>
+
+<div>
+<strong>Moyen de paiement :</strong>
+${escapeHTML(order.payment_method)}
+</div>
+
+<div>
+<strong>Numéro utilisé :</strong>
+${escapeHTML(order.payment_phone || "-")}
+</div>
+
+</div>
+
+
+<div class="items">
+
+<strong>Commande</strong>
+
+${items.map(item=>`
+
+<div class="item">
+
+<span>
+${escapeHTML(item.name)}
+</span>
+
+<strong>
+${formatPrice(item.price)}
+</strong>
+
+</div>
+
+`).join("")}
+
+
+<div class="total">
+
+<span>Total</span>
+
+<span>
+${formatPrice(order.total)}
+</span>
+
+</div>
+
+</div>
+
+
+<div class="actions">
+
+${
+order.status==="pending"
+?`
+<button
+class="action take"
+onclick="changeStatus(
+'${order.id}',
+'processing'
+)">
+Prendre en charge
+</button>
+`
+:""
+}
+
+
+${
+order.status==="processing"
+?`
+<button
+class="action done"
+onclick="changeStatus(
+'${order.id}',
+'completed'
+)">
+✓ Terminer
+</button>
+`
+:""
+}
+
+
+${
+order.status!=="completed"
+?`
+<button
+class="action cancel"
+onclick="changeStatus(
+'${order.id}',
+'cancelled'
+)">
+Annuler
+</button>
+`
+:""
+}
+
+</div>
+
+`;
+
+
+ordersBox.appendChild(div);
+
+});
+
+}
+
+
+/* ==========================================
+   UPDATE
+========================================== */
+
+async function changeStatus(
+id,
+status
+){
+
+const {error} =
+await supabaseClient
+.from("orders")
+.update({
+status:status
+})
+.eq("id",id);
+
+
+if(error){
+
+alert(
+"Impossible de modifier la commande : "+
+error.message
+);
+
+return;
+
+}
+
+
+await loadOrders();
+
+}
+
+
+/* ==========================================
+   LOGOUT
+========================================== */
+
+logoutButton.onclick=async()=>{
+
+await supabaseClient.auth.signOut();
+
+dashboard.classList.add("hidden");
+logoutButton.classList.add("hidden");
+loginSection.classList.remove("hidden");
+
+};
+
+
+/* ==========================================
+   FILTER / REFRESH
+========================================== */
+
+filter.onchange=loadOrders;
+
+document
+.getElementById("refresh")
+.onclick=loadOrders;
+
+
+/* ==========================================
+   SESSION
+========================================== */
+
+supabaseClient.auth.onAuthStateChange(
+async(event,session)=>{
+
+if(session){
+
+await openDashboard();
+
+}
+
+});
+
+
+(async()=>{
+
+const {
+data:{session}
+} =
+await supabaseClient.auth.getSession();
+
+if(session){
+
+await openDashboard();
+
+}
+
+})();
+
+
+/* ==========================================
+   HELPERS
+========================================== */
+
+function statusText(status){
+
+return {
+
+pending:"En attente",
+
+processing:"En traitement",
+
+completed:"Terminée",
+
+cancelled:"Annulée"
+
+}[status] || status;
+
+}
+
+
+function formatPrice(price){
+
+return Number(price)
+.toLocaleString("fr-FR")
++" XAF";
+
+}
+
+
+function formatDate(date){
+
+return new Date(date)
+.toLocaleString("fr-FR");
+
+}
+
+
+function escapeHTML(value){
+
+return String(value)
+.replace(/[&<>"']/g,c=>({
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#039;"
+}[c]));
+
+}
+
+
+function showMessage(text){
+
+const box =
+document.getElementById(
+"loginMessage"
+);
+
+box.textContent=text;
+box.classList.remove("hidden");
+
+}
+
+</script>
+
+</body>
+</html>
